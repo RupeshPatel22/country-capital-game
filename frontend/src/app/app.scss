@@ -1,0 +1,24 @@
+$text-muted: #444;
+$font-stack:
+  system-ui,
+  -apple-system,
+  'Segoe UI',
+  Roboto,
+  sans-serif;
+
+.shell {
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+  font-family: $font-stack;
+}
+
+.shell h1 {
+  font-size: 1.5rem;
+  margin: 0 0 1.5rem;
+}
+
+.shell__result {
+  margin-top: 1.5rem;
+  color: $text-muted;
+}
