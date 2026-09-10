@@ -1,0 +1,28 @@
+# .NET build output
+[Bb]in/
+[Oo]bj/
+
+# Visual Studio
+.vs/
+*.user
+*.rsuser
+*.suo
+*.userosscache
+*.sln.docstates
+
+# VS Code (frontend/ has its own .gitignore too)
+.vscode/*
+!.vscode/extensions.json
+!.vscode/launch.json
+!.vscode/tasks.json
+.history/
+
+# Node / Angular
+node_modules/
+/frontend/dist/
+/frontend/.angular/
+
+# OS
+.idea/
+.DS_Store
+Thumbs.db
