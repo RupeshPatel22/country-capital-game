@@ -73,7 +73,8 @@ Open `legacy/game.html` directly in a browser — no build step.
 ## End-to-end
 
 `docs/` holds a captured playthrough against the running API: the initial board, a hint
-(gold), a wrong pair (red), and completion. The finished game emits
+(gold), a wrong pair (red), completion, and — with the API stopped — the error state
+with its **Play offline** fallback. On completion the game emits
 `{ elapsedSeconds, wrongAttempts, hintsUsed }` and `POST`s the same payload to
 `/api/game/results`, which returns `201`.
 
@@ -81,6 +82,22 @@ Open `legacy/game.html` directly in a browser — no build step.
 | --- | --- |
 | ![Initial board](docs/01-initial.png) | ![Hint highlight](docs/02-hint.png) |
 | ![Wrong pair](docs/03-wrong.png) | ![Completed](docs/04-complete.png) |
+| ![Error state / Play offline](docs/05-play-offline.png) | |
+
+### Test results
+
+Captured runs are in `docs/` — regenerate with the commands shown in **Run it**.
+
+| Suite | Result | Log |
+| --- | --- | --- |
+| Backend — xUnit (`api-tests/`) | **9 passed / 0 failed** | [`docs/backend-test-results.txt`](docs/backend-test-results.txt) |
+| Frontend — Vitest (`frontend/`) | **10 passed / 0 failed** | [`docs/frontend-test-results.txt`](docs/frontend-test-results.txt) |
+
+Backend covers both endpoints' status codes (`200` / `201` / `400`), negative-value
+rejection, a malformed body, and the global handler turning an unhandled exception into a
+`500 ProblemDetails`. Frontend covers the pair-match and wrong-pair-reset rules, the
+streak and hint logic (including the 2s timer and its cleanup on destroy), the loading and
+error states around the fetch, and the completion emit + `POST`.
 
 ---
 
@@ -95,12 +112,14 @@ asks for. Keeping it in one singleton also keeps a single source of truth for ga
 
 ### Running across four load-balanced servers
 
-In-memory results are per-process, so each node would hold only the submissions it
-received and a restart would lose them. Move result storage to a shared store (SQL
-Server or Redis) and keep the service stateless, so no sticky sessions are needed. Make
-`POST /api/game/results` idempotent with a client-supplied id so a retry that lands on a
-different node can't double-count. The `GET` dataset is static config and can stay
-in-memory per node or move to shared config.
+Right now each server keeps results in its own memory. With four servers behind a load
+balancer, each one would only have the submissions that happened to reach it, and any
+restart would lose them. The fix is to keep results in one shared store that all four
+servers use — a database or Redis — and hold nothing important in server memory, so the
+load balancer can send a request to any server and a user doesn't have to stay pinned to
+one. To stop a retried request that lands on a different server from being counted twice,
+have the client send an id with each submission so the server can ignore duplicates. The
+country/capital list never changes, so each server keeping its own copy is fine.
 
 ---
 
@@ -121,6 +140,10 @@ in-memory per node or move to shared config.
 - No deployment: local instructions plus the `docs/` screenshots.
 - API results are kept in a `ConcurrentQueue` for the process lifetime — enough to prove
   the endpoint; see the four-server note above for production.
+- A global `IExceptionHandler` (`api/Infrastructure/GlobalExceptionHandler.cs`) turns any
+  unhandled exception into a logged `500 application/problem+json` with no detail leaked;
+  `[ApiController]` still handles the `400`s. Nothing in the two endpoints actually throws,
+  so it's a safety net rather than load-bearing.
 
 ---
 
