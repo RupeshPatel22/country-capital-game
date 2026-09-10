@@ -22,12 +22,6 @@ import {
   type RemoteData,
 } from './game.types';
 
-/**
- * @description Country / capital matching game. Fetches its pairs from `GET /api/game`
- * (falling back to the `data` input on demand), runs the board through
- * {@link GameStateService}, and reports the finished game up via `gameCompleted` and to
- * `POST /api/game/results`.
- */
 @Component({
   selector: 'app-country-capital',
   imports: [],
