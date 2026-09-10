@@ -39,7 +39,6 @@ type RemoteData =
  */
 @Component({
   selector: 'app-country-capital',
-  standalone: true,
   imports: [],
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [GameStateService],
