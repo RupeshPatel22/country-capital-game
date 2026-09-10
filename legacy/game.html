@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html ng-app="capitalGame">
+<head>
+  <meta charset="UTF-8">
+  <title>Country / Capital Game</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+  <script src="controller.js"></script>
+  <style>
+    button { margin: 6px; padding: 10px 16px; font-size: 14px; }
+    #score { font-family: sans-serif; font-size: 16px; font-weight: bold; margin: 6px; }
+  </style>
+</head>
+<body ng-controller="GameCtrl">
+  <!-- Part 1, task 2: running score counter, interpolated so it updates live -->
+  <p id="score">Score: {{ score }}</p>
+
+  <button
+    ng-repeat="btn in buttons track by btn.id"
+    ng-click="select(btn)"
+    ng-style="{ 'background-color': btn.color }">
+    {{ btn.label }}
+  </button>
+
+  <p id="game-message"></p>
+</body>
+</html>
