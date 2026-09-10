@@ -1,0 +1,86 @@
+@let phase = status();
+
+@if (phase === GameStatus.Loading) {
+  <p class="notice" data-testid="loading" role="status" aria-live="polite">Loading the game…</p>
+} @else if (phase === GameStatus.Error) {
+  <div class="notice notice--error" data-testid="error" role="alert">
+    <p>Couldn't load the game.</p>
+    <div class="notice__actions">
+      <button
+        type="button"
+        data-testid="error-retry"
+        aria-label="Try loading the game again"
+        (click)="retryFetch()"
+      >
+        Retry
+      </button>
+      @if (hasOfflineData()) {
+        <button
+          type="button"
+          data-testid="error-offline"
+          aria-label="Play with the built-in data"
+          (click)="useOfflineData()"
+        >
+          Play offline
+        </button>
+      }
+    </div>
+  </div>
+} @else {
+  <section class="game" aria-label="Country and capital matching game">
+    <dl class="stats">
+      <div class="stats__item">
+        <dt>Streak</dt>
+        <dd data-testid="streak">{{ streak() }}</dd>
+      </div>
+      <div class="stats__item">
+        <dt>Matches</dt>
+        <dd data-testid="matches">{{ matchedPairs() }}</dd>
+      </div>
+      <div class="stats__item">
+        <dt>Wrong</dt>
+        <dd data-testid="wrong-attempts">{{ wrongAttempts() }}</dd>
+      </div>
+      <div class="stats__item">
+        <dt>Hints</dt>
+        <dd data-testid="hints-used">{{ hintsUsed() }}</dd>
+      </div>
+      <div class="stats__item">
+        <dt>Time</dt>
+        <dd data-testid="elapsed">{{ elapsedSeconds() }}s</dd>
+      </div>
+    </dl>
+
+    <button
+      type="button"
+      class="hint"
+      data-testid="hint-button"
+      [disabled]="!canUseHint()"
+      aria-label="Show a hint for the selected country"
+      (click)="useHint()"
+    >
+      Hint
+    </button>
+
+    <div class="board" data-testid="board">
+      @for (button of buttons(); track button.id) {
+        <button
+          type="button"
+          class="tile"
+          data-testid="tile"
+          [attr.data-label]="button.label"
+          [attr.data-state]="button.state"
+          [attr.aria-pressed]="button.state === ButtonState.Selected"
+          [attr.aria-label]="button.label + ' — ' + button.kind"
+          (click)="selectButton(button)"
+        >
+          {{ button.label }}
+        </button>
+      }
+    </div>
+
+    @if (phase === GameStatus.Won) {
+      <p class="congrats" data-testid="congratulations" role="status">Congratulations</p>
+    }
+  </section>
+}
