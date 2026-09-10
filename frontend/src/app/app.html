@@ -1,0 +1,16 @@
+<main class="shell">
+  <h1 data-testid="app-title">Country / Capital Game</h1>
+
+  <app-country-capital
+    data-testid="game"
+    [data]="fallbackData"
+    (gameCompleted)="onGameCompleted($event)"
+  />
+
+  @if (lastResult(); as result) {
+    <p class="shell__result" data-testid="last-result">
+      Last game — {{ result.elapsedSeconds }}s, {{ result.wrongAttempts }} wrong,
+      {{ result.hintsUsed }} hints.
+    </p>
+  }
+</main>
