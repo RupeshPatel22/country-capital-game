@@ -1,0 +1,15 @@
+Backend test suite — api-tests/ (xUnit, .NET 8)
+Command: cd api-tests && dotnet test
+Run:     2026-09-10 13:19 UTC
+
+  Passed CountryCapitalApi.Tests.GameServiceTests.RecordResult_AssignsIdAndTimestamp_AndEchoesValues [16 ms]
+  Passed CountryCapitalApi.Tests.GameServiceTests.GetGameData_ReturnsNonEmptyPairs_WithCapitalsAsValues [2 ms]
+  Passed CountryCapitalApi.Tests.GlobalExceptionHandlerTests.UnhandledException_Returns500ProblemDetails_WithoutLeakingDetail [288 ms]
+  Passed CountryCapitalApi.Tests.GameEndpointsTests.PostResults_Returns400_WhenBodyIsMalformed [286 ms]
+  Passed CountryCapitalApi.Tests.GameEndpointsTests.GetGame_Returns200_WithPairs [10 ms]
+  Passed CountryCapitalApi.Tests.GameEndpointsTests.PostResults_Returns400_WhenAnyValueIsNegative(elapsed: 0, wrong: -5, hints: 0) [7 ms]
+  Passed CountryCapitalApi.Tests.GameEndpointsTests.PostResults_Returns400_WhenAnyValueIsNegative(elapsed: 0, wrong: 0, hints: -2) [1 ms]
+  Passed CountryCapitalApi.Tests.GameEndpointsTests.PostResults_Returns400_WhenAnyValueIsNegative(elapsed: -1, wrong: 0, hints: 0) [1 ms]
+  Passed CountryCapitalApi.Tests.GameEndpointsTests.PostResults_Returns201_WithLocationAndBody_WhenValid [15 ms]
+
+Passed!  - Failed:     0, Passed:     9, Skipped:     0, Total:     9, Duration: 297 ms - CountryCapitalApi.Tests.dll (net8.0)

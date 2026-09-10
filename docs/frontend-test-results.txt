@@ -1,0 +1,16 @@
+Frontend test suite — frontend/ (Vitest 4, via @angular/build:unit-test)
+Command: cd frontend && npm test          (per-test list below: ng test --watch=false --reporters=verbose)
+Run:     2026-09-10 13:20 UTC
+
+ ✓  frontend  src/app/app.spec.ts > App > renders the game heading and hosts the game component 116ms
+ ✓  frontend  src/app/country-capital/country-capital.component.spec.ts > CountryCapitalComponent > shows the loading state while the pairs request is in flight 111ms
+ ✓  frontend  src/app/country-capital/country-capital.component.spec.ts > CountryCapitalComponent > shows the error state when the pairs request fails, and retry re-requests 22ms
+ ✓  frontend  src/app/country-capital/country-capital.component.spec.ts > CountryCapitalComponent > clears a correct country / capital pair and counts the streak 42ms
+ ✓  frontend  src/app/country-capital/country-capital.component.spec.ts > CountryCapitalComponent > marks a wrong pair red and resets the streak 23ms
+ ✓  frontend  src/app/country-capital/country-capital.component.spec.ts > CountryCapitalComponent > restores both red buttons on the third click and selects the new one 31ms
+ ✓  frontend  src/app/country-capital/country-capital.component.spec.ts > CountryCapitalComponent > counts consecutive correct matches and drops back to zero after a wrong pair 25ms
+ ✓  frontend  src/app/country-capital/country-capital.component.spec.ts > CountryCapitalComponent > highlights the matching capital for two seconds when a hint is used 19ms
+ ✓  frontend  src/app/country-capital/country-capital.component.spec.ts > CountryCapitalComponent > cleans up the pending hint timer when the component is destroyed 12ms
+ ✓  frontend  src/app/country-capital/country-capital.component.spec.ts > CountryCapitalComponent > announces completion, emits the result and posts it once the board is cleared 24ms
+ Test Files  2 passed (2)
+      Tests  10 passed (10)
