@@ -1,0 +1,17 @@
+@host = http://localhost:5042
+
+### Get the country/capital data set
+GET {{host}}/api/game
+Accept: application/json
+
+### Submit a completed game (valid -> 201)
+POST {{host}}/api/game/results
+Content-Type: application/json
+
+{ "elapsedSeconds": 42, "wrongAttempts": 3, "hintsUsed": 1 }
+
+### Submit with a negative value (-> 400)
+POST {{host}}/api/game/results
+Content-Type: application/json
+
+{ "elapsedSeconds": 42, "wrongAttempts": -1, "hintsUsed": 0 }
