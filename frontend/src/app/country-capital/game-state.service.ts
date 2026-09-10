@@ -1,4 +1,5 @@
 import { Injectable, computed, signal } from '@angular/core';
+import { HINT_DURATION_MS, INITIAL_COUNTERS } from './game.constants';
 import {
   ButtonKind,
   ButtonState,
@@ -10,16 +11,6 @@ import {
   type GameButton,
   type GameResults,
 } from './game.types';
-
-const HINT_DURATION_MS = 2000;
-
-const INITIAL_COUNTERS = {
-  streak: 0,
-  wrongAttempts: 0,
-  hintsUsed: 0,
-  matchedPairs: 0,
-  elapsedSeconds: 0,
-};
 
 @Injectable()
 export class GameStateService {

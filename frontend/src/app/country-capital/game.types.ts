@@ -1,18 +1,14 @@
-/**
- * @description Country -> capital lookup. This is the shape of the `data` input and of
- * the payload returned by `GET /api/game`.
- * @example { Germany: 'Berlin', Azerbaijan: 'Baku' }
- */
+import { RemoteKind } from './game.constants';
+
+
 export type Data = Record<string, string>;
 
-/** Whether a board button is a country or a capital. */
 export const ButtonKind = {
   Country: 'country',
   Capital: 'capital',
 } as const;
 export type ButtonKind = (typeof ButtonKind)[keyof typeof ButtonKind];
 
-/** Visual state of a board button; drives the `data-state` attribute and its colour. */
 export const ButtonState = {
   Default: 'default',
   Selected: 'selected',
@@ -29,7 +25,6 @@ export type GameButton = {
   state: ButtonState;
 };
 
-/** Lifecycle of the component: the pairs fetch, then the game. */
 export const GameStatus = {
   Loading: 'loading',
   Error: 'error',
@@ -43,6 +38,11 @@ export type GameResults = {
   wrongAttempts: number;
   hintsUsed: number;
 };
+
+export type RemoteData =
+  | { kind: typeof RemoteKind.Loading }
+  | { kind: typeof RemoteKind.Ok; data: Data }
+  | { kind: typeof RemoteKind.Error };
 
 /**
  * @description Builds the unshuffled list of buttons for a data set: one country button

@@ -10,6 +10,7 @@ import {
 } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { Subject, catchError, map, of, startWith, switchMap } from 'rxjs';
+import { RemoteKind } from './game.constants';
 import { GameApiService } from './game-api.service';
 import { GameStateService } from './game-state.service';
 import {
@@ -18,18 +19,8 @@ import {
   type Data,
   type GameButton,
   type GameResults,
+  type RemoteData,
 } from './game.types';
-
-const RemoteKind = {
-  Loading: 'loading',
-  Ok: 'ok',
-  Error: 'error',
-} as const;
-
-type RemoteData =
-  | { kind: typeof RemoteKind.Loading }
-  | { kind: typeof RemoteKind.Ok; data: Data }
-  | { kind: typeof RemoteKind.Error };
 
 /**
  * @description Country / capital matching game. Fetches its pairs from `GET /api/game`
